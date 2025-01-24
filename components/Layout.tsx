@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import type React from "react"
 import Sidebar from "./Sidebar"
@@ -30,7 +30,7 @@ const LayoutContent: React.FC = () => {
             onClick={toggleRole}
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
           >
-            Toggle Role (Current: {userRole})
+            Dashboard View as: {userRole}
           </Button>
         </div>
       </div>

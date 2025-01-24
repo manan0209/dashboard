@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import {
   LayoutDashboard,
   Users,
-  PackageIcon as PipelineIcon,
+  GitBranch,
   Megaphone,
   UserCircle,
   Settings,
@@ -20,7 +20,7 @@ const Sidebar: React.FC = () => {
   const navItems = [
     { name: "Dashboard", icon: LayoutDashboard, page: "dashboard" as const },
     { name: "Leads", icon: Users, page: "leads" as const },
-    { name: "Pipeline", icon: PipelineIcon, page: "pipeline" as const },
+    { name: "Pipeline", icon: GitBranch, page: "pipeline" as const },
     { name: "Campaigns", icon: Megaphone, page: "campaigns" as const },
     { name: "Users", icon: UserCircle, page: "users" as const, adminOnly: true },
     { name: "Settings", icon: Settings, page: "settings" as const },

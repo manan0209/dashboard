@@ -9,6 +9,11 @@ import UpcomingTasks from "./UpcomingTasks"
 import AssignedLeadsTable from "./AssignedLeadsTable"
 import PersonalTaskList from "./PersonalTaskList"
 import DailyProgressSummary from "./DailyProgressSummary"
+import LeadManagement from "./LeadManagement/LeadManagement"
+import PipelineManagement from "./PipelineManagement/PipelineManagement"
+import CampaignManagement from "./CampaignManagement/CampaignManagement"
+import UserManagement from "./UserManagement/UserManagement"
+import Settings from "./Settings/Settings"
 
 const MainContent: React.FC = () => {
   const { activePage, userRole } = useDashboard()
@@ -72,6 +77,16 @@ const MainContent: React.FC = () => {
       </h2>
       {activePage === "dashboard" ? (
         renderDashboard()
+      ) : activePage === "leads" ? (
+        <LeadManagement />
+      ) : activePage === "pipeline" ? (
+        <PipelineManagement />
+      ) : activePage === "campaigns" ? (
+        <CampaignManagement />
+      ) : activePage === "users" ? (
+        <UserManagement />
+      ) : activePage === "settings" ? (
+        <Settings />
       ) : (
         <p className="text-gray-300">
           This is the {activePage} page. Content for this page will be dynamically loaded here.
