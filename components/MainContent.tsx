@@ -64,7 +64,7 @@ const MainContent: React.FC = () => {
     } else {
       return (
         <p className="text-gray-300">
-          Unauthorized access.
+          Role based access control.
         </p>
       )
     }

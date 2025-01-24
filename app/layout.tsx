@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Ghostsales Dashboard',
+  description: 'Ghostsales - The ultimate AI-powered CRM designed to automate and supercharge your sales process. Manage leads, engage customers, and drive growth like never before.',
 }
 
 export default function RootLayout({
