@@ -64,7 +64,7 @@ const MainContent: React.FC = () => {
     } else {
       return (
         <p className="text-gray-300">
-          Welcome to the dashboard. As a regular user, you have limited access to features.
+          Unauthorized access.
         </p>
       )
     }
