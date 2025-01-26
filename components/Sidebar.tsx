@@ -63,7 +63,7 @@ const Sidebar: React.FC = () => {
             text-card-foreground 
             transition-all duration-300 ease-in-out 
             z-40 
-            ${isCollapsed ? "w-16" : "w-64"}
+            ${isCollapsed ? "w-14 md:w-16" : "w-64"}
             ${isMobile ? (isMobileMenuOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"}
             border-r
           `}

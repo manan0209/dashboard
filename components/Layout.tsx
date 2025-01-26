@@ -43,9 +43,9 @@ const LayoutContent: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-background text-foreground md:flex-row">
       <Sidebar />
-      <div className={`flex-1 flex flex-col overflow-hidden ${isCollapsed ? "md:ml-16" : "md:ml-64"}`}>
+      <div className="flex-1 flex flex-col overflow-hidden">
         <TopNav onLogout={handleLogout} onToggleSidebar={toggleMobileMenu} />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6">
           <MainContent />
         </main>
       </div>
