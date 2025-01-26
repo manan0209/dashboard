@@ -30,12 +30,13 @@ const Sidebar: React.FC = () => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setIsMobileMenuOpen(false)
+        setIsCollapsed(false)
       }
     }
 
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
-  }, [])
+  }, [setIsMobileMenuOpen])
 
   const navItems = [
     { name: "Dashboard", icon: LayoutDashboard, page: "dashboard" as const, roles: ["admin", "manager", "agent"] },
@@ -52,21 +53,30 @@ const Sidebar: React.FC = () => {
     { name: "Settings", icon: Settings, page: "settings" as const, roles: ["admin", "manager", "agent"] },
   ]
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
   return (
     <>
-      <Button variant="ghost" size="icon" className="md:hidden fixed top-4 left-4 z-50" onClick={toggleMobileMenu}>
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        className="md:hidden fixed top-4 left-4 z-50" 
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
         {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </Button>
-      <AnimatePresence>
-        {(isMobileMenuOpen || !isCollapsed) && (
+
+      <AnimatePresence mode="wait">
+        {(!isCollapsed || isMobileMenuOpen || window.innerWidth >= 768) && (
           <motion.aside
-            className={`bg-card text-card-foreground fixed md:sticky top-0 left-0 h-screen transition-all duration-300 ease-in-out z-40 ${
-              isCollapsed || isMobileMenuOpen ? "w-16" : "w-64"
-            } ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+            className={`
+              fixed md:sticky top-0 left-0 h-screen 
+              bg-card/80 backdrop-blur-lg md:bg-card
+              text-card-foreground 
+              transition-all duration-300 ease-in-out 
+              z-40 
+              ${isCollapsed ? "w-16" : "w-64"}
+              ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+              border-r
+            `}
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -74,9 +84,16 @@ const Sidebar: React.FC = () => {
           >
             <div className="p-4 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
-                <h1 className={`text-2xl font-bold ${isCollapsed || isMobileMenuOpen ? "hidden" : "block"}`}>
-                  GhostSales
-                </h1>
+                {!isCollapsed && (
+                  <motion.h1 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-2xl font-bold"
+                  >
+                    GhostSales
+                  </motion.h1>
+                )}
                 <Button
                   variant="ghost"
                   size="icon"
@@ -87,20 +104,23 @@ const Sidebar: React.FC = () => {
                 </Button>
               </div>
               <nav className="flex-grow">
-                <ul className="space-y-2">
+                <ul className="space-y-1">
                   {navItems.map((item) => {
                     if (!item.roles.includes(userRole)) return null
                     return (
                       <li key={item.name}>
                         <Button
-                          variant="ghost"
-                          className={`w-full justify-start text-foreground hover:bg-accent ${
-                            activePage === item.page ? "bg-accent text-accent-foreground" : ""
-                          }`}
-                          onClick={() => setActivePage(item.page)}
+                          variant={activePage === item.page ? "secondary" : "ghost"}
+                          className={`w-full justify-start ${isCollapsed ? "px-2" : "px-4"}`}
+                          onClick={() => {
+                            setActivePage(item.page)
+                            if (window.innerWidth < 768) {
+                              setIsMobileMenuOpen(false)
+                            }
+                          }}
                         >
-                          <item.icon className="h-4 w-4" />
-                          {!isCollapsed && !isMobileMenuOpen && <span className="ml-2">{item.name}</span>}
+                          <item.icon className={`h-4 w-4 ${!isCollapsed && "mr-2"}`} />
+                          {!isCollapsed && <span>{item.name}</span>}
                         </Button>
                       </li>
                     )
