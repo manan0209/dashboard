@@ -1,6 +1,6 @@
 "use client"
 import type React from "react"
-import { Bell, Search, User, Moon, Sun, LogOut } from "lucide-react"
+import { Bell, Search, User, Moon, Sun, LogOut, Menu } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,16 +12,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useTheme } from "next-themes"
+import { useState } from "react"
 
 interface TopNavProps {
   onLogout: () => void
+  onToggleSidebar: () => void
 }
 
-const TopNav: React.FC<TopNavProps> = ({ onLogout }) => {
+const TopNav: React.FC<TopNavProps> = ({ onLogout, onToggleSidebar }) => {
   const { theme, setTheme } = useTheme()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+    onToggleSidebar()
+  }
 
   return (
     <nav className="bg-background text-foreground p-4 flex items-center justify-between">
+      <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMobileMenu}>
+        <Menu className="h-6 w-6" />
+      </Button>
       <div className="flex-grow max-w-md hidden md:block">
         <div className="relative">
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground" />

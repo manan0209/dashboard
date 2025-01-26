@@ -14,6 +14,7 @@ const LayoutContent: React.FC = () => {
   const { userRole, setUserRole } = useDashboard()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showNoAccount, setShowNoAccount] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleLogin = (email: string, password: string, role: string) => {
     // Here you would typically validate the credentials and role
@@ -38,9 +39,12 @@ const LayoutContent: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground md:flex-row">
-      <Sidebar />
+      <Sidebar 
+        isMobileMenuOpen={isMobileMenuOpen} 
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <TopNav onLogout={handleLogout} />
+        <TopNav onLogout={handleLogout} onToggleSidebar={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
           <MainContent />
         </main>
