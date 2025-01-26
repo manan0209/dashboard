@@ -19,7 +19,7 @@ const activities: ActivityItem[] = [
 
 const ActivityFeed: React.FC = () => {
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="bg-card text-card-foreground">
       <CardHeader>
         <CardTitle>Recent Activity</CardTitle>
       </CardHeader>
@@ -28,11 +28,11 @@ const ActivityFeed: React.FC = () => {
           {activities.map((activity) => (
             <li key={activity.id} className="flex items-start space-x-3">
               <div className="flex-shrink-0">
-                <activity.icon className="h-5 w-5 text-purple-400" />
+                <activity.icon className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-gray-300">{activity.content}</p>
-                <p className="text-xs text-gray-500">{activity.timestamp}</p>
+                <p className="text-sm text-foreground">{activity.content}</p>
+                <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
               </div>
             </li>
           ))}

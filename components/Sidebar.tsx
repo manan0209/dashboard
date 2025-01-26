@@ -11,6 +11,10 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Bot,
+  BarChart2,
+  Zap,
+  HelpCircle,
 } from "lucide-react"
 
 const Sidebar: React.FC = () => {
@@ -18,17 +22,21 @@ const Sidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = React.useState(false)
 
   const navItems = [
-    { name: "Dashboard", icon: LayoutDashboard, page: "dashboard" as const },
-    { name: "Leads", icon: Users, page: "leads" as const },
-    { name: "Pipeline", icon: GitBranch, page: "pipeline" as const },
-    { name: "Campaigns", icon: Megaphone, page: "campaigns" as const },
-    { name: "Users", icon: UserCircle, page: "users" as const, adminOnly: true },
-    { name: "Settings", icon: Settings, page: "settings" as const },
+    { name: "Dashboard", icon: LayoutDashboard, page: "dashboard" as const, roles: ["admin", "manager", "agent"] },
+    { name: "Leads", icon: Users, page: "leads" as const, roles: ["admin", "manager", "agent"] },
+    { name: "Pipeline", icon: GitBranch, page: "pipeline" as const, roles: ["admin", "manager", "agent"] },
+    { name: "Campaigns", icon: Megaphone, page: "campaigns" as const, roles: ["admin", "manager"] },
+    { name: "Users", icon: UserCircle, page: "users" as const, roles: ["admin"] },
+    { name: "AI Automation", icon: Bot, page: "ai-automation" as const, roles: ["admin", "manager"] },
+    { name: "Task Automation", icon: Zap, page: "task-automation" as const, roles: ["admin", "manager"] },
+    { name: "Performance", icon: BarChart2, page: "performance" as const, roles: ["admin"] },
+    { name: "FAQ & Training", icon: HelpCircle, page: "faq" as const, roles: ["admin", "manager", "agent"] },
+    { name: "Settings", icon: Settings, page: "settings" as const, roles: ["admin", "manager", "agent"] },
   ]
 
   return (
     <motion.aside
-      className={`bg-black text-white h-screen sticky top-0 transition-all duration-300 ease-in-out ${
+      className={`bg-card text-card-foreground h-screen sticky top-0 transition-all duration-300 ease-in-out ${
         isCollapsed ? "w-16" : "w-64"
       }`}
       initial={false}
@@ -41,7 +49,7 @@ const Sidebar: React.FC = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-white hover:bg-gray-800"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent"
           >
             {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
           </Button>
@@ -49,15 +57,13 @@ const Sidebar: React.FC = () => {
         <nav className="flex-grow">
           <ul className="space-y-2">
             {navItems.map((item) => {
-              if (item.adminOnly && userRole !== "admin") return null
+              if (!item.roles.includes(userRole)) return null
               return (
                 <li key={item.name}>
                   <Button
                     variant="ghost"
-                    className={`w-full justify-start text-white hover:bg-gray-800 ${
-                      activePage === item.page
-                        ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                        : ""
+                    className={`w-full justify-start text-foreground hover:bg-accent ${
+                      activePage === item.page ? "bg-accent text-accent-foreground" : ""
                     }`}
                     onClick={() => setActivePage(item.page)}
                   >

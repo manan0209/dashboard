@@ -1,5 +1,5 @@
 import type React from "react"
-import { Bell, Search, User } from "lucide-react"
+import { Bell, Search, User, Moon, Sun } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -10,10 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTheme } from "next-themes"
 
 const TopNav: React.FC = () => {
+  const { theme, setTheme } = useTheme()
+
   return (
-    <nav className="bg-black text-white p-4 flex items-center justify-between">
+    <nav className="bg-background text-foreground p-4 flex items-center justify-between">
       <div className="flex-grow max-w-md">
         <div className="relative">
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -25,6 +28,16 @@ const TopNav: React.FC = () => {
         </div>
       </div>
       <div className="flex items-center space-x-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="relative"
+        >
+          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">

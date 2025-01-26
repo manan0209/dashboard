@@ -14,59 +14,58 @@ import PipelineManagement from "./PipelineManagement/PipelineManagement"
 import CampaignManagement from "./CampaignManagement/CampaignManagement"
 import UserManagement from "./UserManagement/UserManagement"
 import Settings from "./Settings/Settings"
+import AIAutomationDashboard from "./AIAutomation/AIAutomationDashboard"
+import PerformanceMonitoring from "./PerformanceMonitoring/PerformanceMonitoring"
+import TaskAutomationSettings from "./TaskAutomation/TaskAutomationSettings"
+import FAQAndTraining from "./FAQAndTraining"
 
 const MainContent: React.FC = () => {
   const { activePage, userRole } = useDashboard()
 
   const renderDashboard = () => {
-    if (userRole === "admin") {
-      return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-3">
-            <StatisticsCard />
+    switch (userRole) {
+      case "admin":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-3">
+              <StatisticsCard />
+            </div>
+            <div className="md:col-span-2">
+              <ActivityFeed />
+            </div>
+            <div className="md:col-span-1">
+              <QuickActions />
+            </div>
           </div>
-          <div className="md:col-span-2">
-            <ActivityFeed />
+        )
+      case "manager":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <TeamPerformanceChart />
+            </div>
+            <div className="md:col-span-1">
+              <UpcomingTasks />
+            </div>
+            <div className="md:col-span-3">
+              <TopCampaignsTable />
+            </div>
           </div>
-          <div className="md:col-span-1">
-            <QuickActions />
+        )
+      case "agent":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <AssignedLeadsTable />
+            </div>
+            <div className="md:col-span-1">
+              <PersonalTaskList />
+            </div>
+            <div className="md:col-span-3">
+              <DailyProgressSummary />
+            </div>
           </div>
-        </div>
-      )
-    } else if (userRole === "manager") {
-      return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <TeamPerformanceChart />
-          </div>
-          <div className="md:col-span-1">
-            <UpcomingTasks />
-          </div>
-          <div className="md:col-span-3">
-            <TopCampaignsTable />
-          </div>
-        </div>
-      )
-    } else if (userRole === "agent") {
-      return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <AssignedLeadsTable />
-          </div>
-          <div className="md:col-span-1">
-            <PersonalTaskList />
-          </div>
-          <div className="md:col-span-3">
-            <DailyProgressSummary />
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <p className="text-gray-300">
-          Role based access control.
-        </p>
-      )
+        )
     }
   }
 
@@ -81,16 +80,22 @@ const MainContent: React.FC = () => {
         <LeadManagement />
       ) : activePage === "pipeline" ? (
         <PipelineManagement />
-      ) : activePage === "campaigns" ? (
+      ) : activePage === "campaigns" && (userRole === "admin" || userRole === "manager") ? (
         <CampaignManagement />
-      ) : activePage === "users" ? (
+      ) : activePage === "users" && userRole === "admin" ? (
         <UserManagement />
       ) : activePage === "settings" ? (
         <Settings />
+      ) : activePage === "ai-automation" && (userRole === "admin" || userRole === "manager") ? (
+        <AIAutomationDashboard />
+      ) : activePage === "performance" && (userRole === "admin" || userRole === "manager") ? (
+        <PerformanceMonitoring />
+      ) : activePage === "task-automation" && (userRole === "admin" || userRole === "manager") ? (
+        <TaskAutomationSettings />
+      ) : activePage === "faq" ? (
+        <FAQAndTraining />
       ) : (
-        <p className="text-gray-300">
-          This is the {activePage} page. Content for this page will be dynamically loaded here.
-        </p>
+        <p className="text-gray-300">You don't have permission to access this page.</p>
       )}
     </div>
   )

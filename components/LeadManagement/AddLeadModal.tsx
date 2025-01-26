@@ -5,12 +5,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+interface CustomField {
+  id: string
+  name: string
+  type: "text" | "dropdown" | "number"
+}
+
 interface AddLeadModalProps {
   isOpen: boolean
   onClose: () => void
+  customFields: CustomField[]
 }
 
-const AddLeadModal: React.FC<AddLeadModalProps> = ({ isOpen, onClose }) => {
+const AddLeadModal: React.FC<AddLeadModalProps> = ({ isOpen, onClose, customFields }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     // Handle form submission logic here
@@ -77,6 +84,27 @@ const AddLeadModal: React.FC<AddLeadModalProps> = ({ isOpen, onClose }) => {
               </SelectContent>
             </Select>
           </div>
+          {customFields.map((field) => (
+            <div key={field.id} className="space-y-2">
+              <Label htmlFor={field.id}>{field.name}</Label>
+              {field.type === "text" && <Input id={field.id} placeholder={`Enter ${field.name.toLowerCase()}`} />}
+              {field.type === "number" && (
+                <Input id={field.id} type="number" placeholder={`Enter ${field.name.toLowerCase()}`} />
+              )}
+              {field.type === "dropdown" && (
+                <Select>
+                  <SelectTrigger id={field.id}>
+                    <SelectValue placeholder={`Select ${field.name.toLowerCase()}`} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="option1">Option 1</SelectItem>
+                    <SelectItem value="option2">Option 2</SelectItem>
+                    <SelectItem value="option3">Option 3</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+          ))}
           <DialogFooter>
             <Button type="submit">Add Lead</Button>
           </DialogFooter>

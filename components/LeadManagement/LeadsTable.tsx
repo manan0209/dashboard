@@ -4,6 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
+interface CustomField {
+  id: string
+  name: string
+  type: "text" | "dropdown" | "number"
+}
+
 interface Lead {
   id: string
   name: string
@@ -12,57 +18,15 @@ interface Lead {
   status: string
   assignedAgent: string
   priority: "high" | "medium" | "low"
+  customFields: Record<string, string | number>
 }
 
-const mockLeads: Lead[] = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "john@example.com",
-    phone: "(555) 123-4567",
-    status: "New",
-    assignedAgent: "Alice Smith",
-    priority: "high",
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    email: "jane@example.com",
-    phone: "(555) 987-6543",
-    status: "In Progress",
-    assignedAgent: "Bob Johnson",
-    priority: "medium",
-  },
-  {
-    id: "3",
-    name: "Mike Johnson",
-    email: "mike@example.com",
-    phone: "(555) 246-8135",
-    status: "Qualified",
-    assignedAgent: "Charlie Brown",
-    priority: "low",
-  },
-  {
-    id: "4",
-    name: "Sarah Williams",
-    email: "sarah@example.com",
-    phone: "(555) 369-2580",
-    status: "New",
-    assignedAgent: "David Lee",
-    priority: "high",
-  },
-  {
-    id: "5",
-    name: "Tom Brown",
-    email: "tom@example.com",
-    phone: "(555) 147-2589",
-    status: "Lost",
-    assignedAgent: "Eve Taylor",
-    priority: "medium",
-  },
-]
+interface LeadsTableProps {
+  leads: Lead[]
+  customFields: CustomField[]
+}
 
-const LeadsTable: React.FC = () => {
+const LeadsTable: React.FC<LeadsTableProps> = ({ leads, customFields }) => {
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden">
       <Table>
@@ -73,10 +37,18 @@ const LeadsTable: React.FC = () => {
             <TableHead className="text-white">Phone</TableHead>
             <TableHead className="text-white">Status</TableHead>
             <TableHead className="text-white">Assigned Agent</TableHead>
+            {customFields.map((field) => (
+              <TableHead key={field.id} className="text-white">
+                {field.name}
+                {field.type === "text" && <span className="ml-1 text-gray-400">🔤</span>}
+                {field.type === "dropdown" && <span className="ml-1 text-gray-400">🔽</span>}
+                {field.type === "number" && <span className="ml-1 text-gray-400">#️⃣</span>}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mockLeads.map((lead) => (
+          {leads.map((lead) => (
             <TableRow key={lead.id}>
               <TableCell className="font-medium text-white">
                 {lead.name}
@@ -86,6 +58,11 @@ const LeadsTable: React.FC = () => {
               <TableCell className="text-gray-300">{lead.phone}</TableCell>
               <TableCell className="text-gray-300">{lead.status}</TableCell>
               <TableCell className="text-gray-300">{lead.assignedAgent}</TableCell>
+              {customFields.map((field) => (
+                <TableCell key={field.id} className="text-gray-300">
+                  {lead.customFields[field.id]}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

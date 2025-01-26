@@ -3,8 +3,18 @@
 import type React from "react"
 import { createContext, useContext, useState } from "react"
 
-type Page = "dashboard" | "leads" | "pipeline" | "campaigns" | "users" | "settings"
-type Role = "admin" | "manager" | "agent" | "user"
+type Page =
+  | "dashboard"
+  | "leads"
+  | "pipeline"
+  | "campaigns"
+  | "users"
+  | "settings"
+  | "ai-automation"
+  | "task-automation"
+  | "performance"
+  | "faq"
+type Role = "admin" | "manager" | "agent"
 
 interface DashboardContextType {
   activePage: Page
@@ -17,7 +27,7 @@ const DashboardContext = createContext<DashboardContextType | undefined>(undefin
 
 export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activePage, setActivePage] = useState<Page>("dashboard")
-  const [userRole, setUserRole] = useState<Role>("admin")
+  const [userRole, setUserRole] = useState<Role>("agent")
 
   return (
     <DashboardContext.Provider value={{ activePage, setActivePage, userRole, setUserRole }}>

@@ -5,18 +5,18 @@ import { UserPlus, Megaphone, UserPlus2 } from "lucide-react"
 
 const QuickActions: React.FC = () => {
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="bg-card text-card-foreground">
       <CardHeader>
         <CardTitle>Quick Actions</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col space-y-2">
-        <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+        <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
           <UserPlus className="mr-2 h-4 w-4" /> Add Lead
         </Button>
-        <Button className="w-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+        <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90">
           <Megaphone className="mr-2 h-4 w-4" /> Create Campaign
         </Button>
-        <Button className="w-full bg-gradient-to-r from-green-500 to-yellow-500 hover:from-green-600 hover:to-yellow-600 text-white shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+        <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
           <UserPlus2 className="mr-2 h-4 w-4" /> Invite User
         </Button>
       </CardContent>
