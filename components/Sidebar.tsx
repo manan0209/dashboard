@@ -25,14 +25,20 @@ import { useDashboard } from "../contexts/DashboardContext"
 const Sidebar: React.FC = () => {
   const { activePage, setActivePage, userRole, isMobileMenuOpen, setIsMobileMenuOpen } = useDashboard()
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setIsMobileMenuOpen(false)
         setIsCollapsed(false)
+      } else {
+        setIsCollapsed(true)
       }
     }
+
+    // Set initial state
+    handleResize()
 
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
@@ -59,7 +65,12 @@ const Sidebar: React.FC = () => {
         variant="ghost" 
         size="icon" 
         className="md:hidden fixed top-4 left-4 z-50" 
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        onClick={() => {
+          setIsMobileMenuOpen(!isMobileMenuOpen)
+          if (isMobile) {
+            setIsCollapsed(!isCollapsed)
+          }
+        }}
       >
         {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </Button>
@@ -114,8 +125,9 @@ const Sidebar: React.FC = () => {
                           className={`w-full justify-start ${isCollapsed ? "px-2" : "px-4"}`}
                           onClick={() => {
                             setActivePage(item.page)
-                            if (window.innerWidth < 768) {
+                            if (isMobile) {
                               setIsMobileMenuOpen(false)
+                              setIsCollapsed(true)
                             }
                           }}
                         >
