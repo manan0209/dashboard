@@ -21,16 +21,16 @@ interface TopNavProps {
 
 const TopNav: React.FC<TopNavProps> = ({ onLogout, onToggleSidebar }) => {
   const { theme, setTheme } = useTheme()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  //const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false) // Removed unused state
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-    onToggleSidebar()
-  }
+  //const toggleMobileMenu = () => { // Removed unused function
+  //  setIsMobileMenuOpen(!isMobileMenuOpen)
+  //  onToggleSidebar()
+  //}
 
   return (
     <nav className="bg-background text-foreground p-4 flex items-center justify-between">
-      <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMobileMenu}>
+      <Button variant="ghost" size="icon" className="md:hidden mr-2" onClick={onToggleSidebar}>
         <Menu className="h-6 w-6" />
       </Button>
       <div className="flex-grow max-w-md hidden md:block">
@@ -39,7 +39,7 @@ const TopNav: React.FC<TopNavProps> = ({ onLogout, onToggleSidebar }) => {
           <Input type="search" placeholder="Search..." className="pl-8 bg-background text-foreground border-input" />
         </div>
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-2 md:space-x-4">
         <Button
           variant="ghost"
           size="icon"

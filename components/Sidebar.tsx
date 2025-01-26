@@ -22,11 +22,8 @@ import type React from "react"
 import { useEffect, useState } from "react"
 import { useDashboard } from "../contexts/DashboardContext"
 
-const Sidebar: React.FC<{ 
-  isMobileMenuOpen: boolean;
-  setIsMobileMenuOpen: (isOpen: boolean) => void;
-}> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  const { activePage, setActivePage, userRole } = useDashboard()
+const Sidebar: React.FC = () => {
+  const { activePage, setActivePage, userRole, isMobileMenuOpen, setIsMobileMenuOpen } = useDashboard()
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   useEffect(() => {
@@ -68,7 +65,7 @@ const Sidebar: React.FC<{
         {(isMobileMenuOpen || !isCollapsed) && (
           <motion.aside
             className={`bg-card text-card-foreground fixed md:sticky top-0 left-0 h-screen transition-all duration-300 ease-in-out z-40 ${
-              isCollapsed ? "w-16" : "w-64"
+              isCollapsed || isMobileMenuOpen ? "w-16" : "w-64"
             } ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
@@ -77,7 +74,9 @@ const Sidebar: React.FC<{
           >
             <div className="p-4 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
-                <h1 className={`text-2xl font-bold ${isCollapsed ? "hidden" : "block"}`}>GhostSales</h1>
+                <h1 className={`text-2xl font-bold ${isCollapsed || isMobileMenuOpen ? "hidden" : "block"}`}>
+                  GhostSales
+                </h1>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -100,8 +99,8 @@ const Sidebar: React.FC<{
                           }`}
                           onClick={() => setActivePage(item.page)}
                         >
-                          <item.icon className="mr-2 h-4 w-4" />
-                          {!isCollapsed && <span>{item.name}</span>}
+                          <item.icon className="h-4 w-4" />
+                          {!isCollapsed && !isMobileMenuOpen && <span className="ml-2">{item.name}</span>}
                         </Button>
                       </li>
                     )

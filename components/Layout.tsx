@@ -1,12 +1,12 @@
 "use client"
 import type React from "react"
 import { useState } from "react"
-import Sidebar from "./Sidebar"
-import TopNav from "./TopNav"
-import MainContent from "./MainContent"
-import AIFAQAssistant from "./AIAssistant/AIFAQAssistant"
 import { DashboardProvider, useDashboard } from "../contexts/DashboardContext"
+import AIFAQAssistant from "./AIAssistant/AIFAQAssistant"
+import MainContent from "./MainContent"
+import Sidebar from "./Sidebar"
 import { ThemeProvider } from "./ThemeProvider"
+import TopNav from "./TopNav"
 import LoginPage from "./auth/LoginPage"
 import NoAccountPage from "./auth/NoAccountPage"
 
@@ -17,8 +17,6 @@ const LayoutContent: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleLogin = (email: string, password: string, role: string) => {
-    // Here you would typically validate the credentials and role
-    // For now, we'll just set isAuthenticated to true and update the user role
     console.log("Login attempt with:", email, password, role)
     setIsAuthenticated(true)
     setUserRole(role as "admin" | "manager" | "agent")
@@ -27,6 +25,10 @@ const LayoutContent: React.FC = () => {
   const handleLogout = () => {
     setIsAuthenticated(false)
     setShowNoAccount(false)
+  }
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
   }
 
   if (!isAuthenticated) {
@@ -39,12 +41,9 @@ const LayoutContent: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground md:flex-row">
-      <Sidebar 
-        isMobileMenuOpen={isMobileMenuOpen} 
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-      />
+      <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <TopNav onLogout={handleLogout} onToggleSidebar={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+        <TopNav onLogout={handleLogout} onToggleSidebar={toggleMobileMenu} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
           <MainContent />
         </main>

@@ -13,7 +13,9 @@ type Page =
   | "ai-automation"
   | "task-automation"
   | "performance"
-  | "faq";
+  | "faq"
+  | "customer-retention"
+  | "analytics";
 type Role = "admin" | "manager" | "agent";
 
 interface DashboardContextType {
@@ -23,6 +25,8 @@ interface DashboardContextType {
   setUserRole: (role: Role) => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
@@ -35,9 +39,20 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [activePage, setActivePage] = useState<Page>("dashboard");
   const [userRole, setUserRole] = useState<Role>("admin");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <DashboardContext.Provider
-      value={{ activePage, setActivePage, userRole, setUserRole, isSidebarOpen, setIsSidebarOpen }}
+      value={{ 
+        activePage, 
+        setActivePage, 
+        userRole, 
+        setUserRole, 
+        isSidebarOpen, 
+        setIsSidebarOpen,
+        isMobileMenuOpen,
+        setIsMobileMenuOpen
+      }}
     >
       {children}
     </DashboardContext.Provider>
