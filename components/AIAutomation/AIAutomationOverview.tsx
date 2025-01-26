@@ -25,7 +25,7 @@ const OverviewCard: React.FC<OverviewCardProps> = ({ title, value, icon }) => (
 
 const AIAutomationOverview: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <OverviewCard title="Active Automations" value="12" icon={<Robot className="h-6 w-6 text-purple-400" />} />
       <OverviewCard title="Total AI Actions" value="1,234" icon={<Zap className="h-6 w-6 text-pink-400" />} />
       <OverviewCard title="Success Rate" value="95%" icon={<CheckCircle className="h-6 w-6 text-green-400" />} />

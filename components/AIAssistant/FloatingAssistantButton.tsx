@@ -1,6 +1,8 @@
+"use client"
+
 import type React from "react"
 import { Button } from "@/components/ui/button"
-import { HelpCircle } from "lucide-react"
+import { Bot } from "lucide-react"
 
 interface FloatingAssistantButtonProps {
   onClick: () => void
@@ -10,9 +12,9 @@ const FloatingAssistantButton: React.FC<FloatingAssistantButtonProps> = ({ onCli
   return (
     <Button
       onClick={onClick}
-      className="fixed bottom-8 right-8 rounded-full w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 shadow-lg ease-in-out transform hover:scale-105"
+      className="fixed bottom-4 right-4 md:bottom-8 md:right-8 rounded-full w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
     >
-      <HelpCircle className="h-8 w-8 text-white" />
+      <Bot className="h-6 w-6 md:h-8 md:w-8 text-white" />
     </Button>
   )
 }

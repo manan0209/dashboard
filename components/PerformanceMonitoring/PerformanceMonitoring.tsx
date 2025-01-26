@@ -1,13 +1,7 @@
-import dynamic from 'next/dynamic'
 import type React from "react"
 import ServerStatus from "./ServerStatus"
 import UserActivityLogs from "./UserActivityLogs"
-
-// Dynamically import SystemMetrics with SSR disabled
-const SystemMetrics = dynamic(
-  () => import("./SystemMetrics"),
-  { ssr: false }
-)
+import SystemMetrics from "./SystemMetrics"
 
 const PerformanceMonitoring: React.FC = () => {
   // Mock data for demonstration purposes
@@ -16,7 +10,7 @@ const PerformanceMonitoring: React.FC = () => {
     latency: 42,
   }
 
-  const activityLogs: { id: string; type: "login" | "lead" | "campaign"; user: string; timestamp: string; details: string; }[] = [
+  const activityLogs = [
     { id: "1", type: "login", user: "John Doe", timestamp: "2 minutes ago", details: "Logged in successfully" },
     { id: "2", type: "lead", user: "Jane Smith", timestamp: "15 minutes ago", details: "Added new lead: Acme Corp" },
     {

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 
 const DailyProgressSummary: React.FC = () => {
-  const progressPercentage = 72 // This would be dynamically calculated based on actual data
+  const progressPercentage = 75 // This would be dynamically calculated based on actual data
 
   return (
     <Card className="bg-gray-800 border-gray-700">

@@ -26,7 +26,7 @@ const StatisticsCard: React.FC = () => {
       <CardContent className="p-6">
         <h3 className="text-xl font-semibold mb-4">Statistics</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Stat icon={Users} label="Total Leads" value={4367} />
+          <Stat icon={Users} label="Total Leads" value={1234} />
           <Stat icon={Megaphone} label="Active Campaigns" value={5} />
           <Stat icon={TrendingUp} label="Team Performance" value={92} />
         </div>

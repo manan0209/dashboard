@@ -1,17 +1,19 @@
 "use client"
-
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useDashboard } from "../../contexts/DashboardContext"
+import AIRecommendations from "./AIRecommendations"
 
 interface Lead {
   id: string
   name: string
   status: string
   nextFollowUp: string
+  interactions: number
+  lastInteraction: string
 }
 
 interface Stage {
@@ -20,35 +22,85 @@ interface Stage {
   leads: Lead[]
 }
 
-const initialStages: Stage[] = [
-  {
-    id: "new",
-    title: "New",
-    leads: [
-      { id: "lead1", name: "John Doe", status: "New", nextFollowUp: "2023-07-15" },
-      { id: "lead2", name: "Jane Smith", status: "New", nextFollowUp: "2023-07-16" },
-    ],
-  },
-  {
-    id: "contacted",
-    title: "Contacted",
-    leads: [{ id: "lead3", name: "Bob Johnson", status: "Contacted", nextFollowUp: "2023-07-18" }],
-  },
-  {
-    id: "negotiation",
-    title: "Negotiation",
-    leads: [{ id: "lead4", name: "Alice Brown", status: "Negotiation", nextFollowUp: "2023-07-20" }],
-  },
-  {
-    id: "closed",
-    title: "Closed",
-    leads: [{ id: "lead5", name: "Charlie Wilson", status: "Closed", nextFollowUp: "2023-07-22" }],
-  },
-]
-
 const PipelineManagement: React.FC = () => {
-  const [stages, setStages] = useState<Stage[]>(initialStages)
+  const [stages, setStages] = useState<Stage[]>([])
   const { userRole } = useDashboard()
+
+  useEffect(() => {
+    // Simulating fetching pipeline data
+    const fetchPipelineData = async () => {
+      // In a real implementation, this would be an API call
+      const mockStages: Stage[] = [
+        {
+          id: "new",
+          title: "New",
+          leads: [
+            {
+              id: "lead1",
+              name: "John Doe",
+              status: "New",
+              nextFollowUp: "2023-07-15",
+              interactions: 2,
+              lastInteraction: "2023-07-10",
+            },
+            {
+              id: "lead2",
+              name: "Jane Smith",
+              status: "New",
+              nextFollowUp: "2023-07-16",
+              interactions: 1,
+              lastInteraction: "2023-07-09",
+            },
+          ],
+        },
+        {
+          id: "contacted",
+          title: "Contacted",
+          leads: [
+            {
+              id: "lead3",
+              name: "Bob Johnson",
+              status: "Contacted",
+              nextFollowUp: "2023-07-18",
+              interactions: 3,
+              lastInteraction: "2023-07-12",
+            },
+          ],
+        },
+        {
+          id: "negotiation",
+          title: "Negotiation",
+          leads: [
+            {
+              id: "lead4",
+              name: "Alice Brown",
+              status: "Negotiation",
+              nextFollowUp: "2023-07-20",
+              interactions: 5,
+              lastInteraction: "2023-07-14",
+            },
+          ],
+        },
+        {
+          id: "closed",
+          title: "Closed",
+          leads: [
+            {
+              id: "lead5",
+              name: "Charlie Wilson",
+              status: "Closed",
+              nextFollowUp: "2023-07-22",
+              interactions: 7,
+              lastInteraction: "2023-07-15",
+            },
+          ],
+        },
+      ]
+      setStages(mockStages)
+    }
+
+    fetchPipelineData()
+  }, [])
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result
@@ -69,17 +121,17 @@ const PipelineManagement: React.FC = () => {
     }
 
     const newSourceLeads = Array.from(sourceStage.leads)
-    const [removedLead] = newSourceLeads.splice(source.index, 1)
+    const [movedLead] = newSourceLeads.splice(source.index, 1)
 
     if (source.droppableId === destination.droppableId) {
-      newSourceLeads.splice(destination.index, 0, removedLead)
+      newSourceLeads.splice(destination.index, 0, movedLead)
       const newStages = stages.map((stage) =>
         stage.id === sourceStage.id ? { ...stage, leads: newSourceLeads } : stage,
       )
       setStages(newStages)
     } else {
       const newDestLeads = Array.from(destStage.leads)
-      newDestLeads.splice(destination.index, 0, removedLead)
+      newDestLeads.splice(destination.index, 0, { ...movedLead, status: destStage.title })
       const newStages = stages.map((stage) => {
         if (stage.id === sourceStage.id) {
           return { ...stage, leads: newSourceLeads }
@@ -116,6 +168,7 @@ const PipelineManagement: React.FC = () => {
           </Button>
         )}
       </div>
+      <AIRecommendations stages={stages} />
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex space-x-4 overflow-x-auto pb-4">
           {stages.map((stage) => (
@@ -139,6 +192,8 @@ const PipelineManagement: React.FC = () => {
                           <h4 className="font-medium text-white">{lead.name}</h4>
                           <p className="text-sm text-gray-400">Status: {lead.status}</p>
                           <p className="text-sm text-gray-400">Next Follow-up: {lead.nextFollowUp}</p>
+                          <p className="text-sm text-gray-400">Interactions: {lead.interactions}</p>
+                          <p className="text-sm text-gray-400">Last Interaction: {lead.lastInteraction}</p>
                         </div>
                       )}
                     </Draggable>

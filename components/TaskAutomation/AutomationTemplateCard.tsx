@@ -1,7 +1,7 @@
 import type React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Play, Pause } from "lucide-react"
+import { Play, Pause, Zap, Activity } from "lucide-react"
 
 interface AutomationTemplateProps {
   title: string
@@ -9,6 +9,8 @@ interface AutomationTemplateProps {
   isActive: boolean
   executionCount: number
   successRate: number
+  trigger: string
+  action: string
   onToggle: () => void
 }
 
@@ -18,6 +20,8 @@ const AutomationTemplateCard: React.FC<AutomationTemplateProps> = ({
   isActive,
   executionCount,
   successRate,
+  trigger,
+  action,
   onToggle,
 }) => {
   return (
@@ -36,24 +40,39 @@ const AutomationTemplateCard: React.FC<AutomationTemplateProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-300 mb-4">{description}</p>
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-gray-400">Executions</p>
-            <p className="text-lg font-semibold text-white">{executionCount}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-400">Success Rate</p>
-            <div className="relative pt-1">
-              <div className="overflow-hidden h-2 text-xs flex rounded bg-purple-200">
-                <div
-                  style={{ width: `${successRate}%` }}
-                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
-                >
-                  <div className="absolute top-0 -mt-1 text-xs text-white">{successRate}%</div>
-                </div>
+        <div className="space-y-4">
+          <p className="text-gray-300">{description}</p>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gray-700/50 p-3 rounded-lg">
+              <div className="flex items-center mb-2">
+                <Zap className="h-5 w-5 text-yellow-400 mr-2" />
+                <p className="text-sm font-semibold text-white">Trigger</p>
               </div>
+              <p className="text-sm text-gray-300">{trigger}</p>
             </div>
+            <div className="bg-gray-700/50 p-3 rounded-lg">
+              <div className="flex items-center mb-2">
+                <Activity className="h-5 w-5 text-blue-400 mr-2" />
+                <p className="text-sm font-semibold text-white">Action</p>
+              </div>
+              <p className="text-sm text-gray-300">{action}</p>
+            </div>
+          </div>
+          <div className="flex justify-between items-center bg-gray-700/50 p-3 rounded-lg">
+            <div>
+              <p className="text-sm text-gray-400">Executions</p>
+              <p className="text-lg font-semibold text-white">{executionCount}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">Success Rate</p>
+              <p className="text-lg font-semibold text-green-400">{successRate}%</p>
+            </div>
+          </div>
+          <div className="w-full bg-gray-700 rounded-full h-2.5">
+            <div
+              className="bg-gradient-to-r from-purple-500 to-pink-500 h-2.5 rounded-full"
+              style={{ width: `${successRate}%` }}
+            ></div>
           </div>
         </div>
       </CardContent>

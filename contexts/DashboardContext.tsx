@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { createContext, useContext, useState } from "react"
+import type React from "react";
+import { createContext, useContext, useState } from "react";
 
 type Page =
   | "dashboard"
@@ -13,34 +13,41 @@ type Page =
   | "ai-automation"
   | "task-automation"
   | "performance"
-  | "faq"
-type Role = "admin" | "manager" | "agent"
+  | "faq";
+type Role = "admin" | "manager" | "agent";
 
 interface DashboardContextType {
-  activePage: Page
-  setActivePage: (page: Page) => void
-  userRole: Role
-  setUserRole: (role: Role) => void
+  activePage: Page;
+  setActivePage: (page: Page) => void;
+  userRole: Role;
+  setUserRole: (role: Role) => void;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (isOpen: boolean) => void;
 }
 
-const DashboardContext = createContext<DashboardContextType | undefined>(undefined)
+const DashboardContext = createContext<DashboardContextType | undefined>(
+  undefined
+);
 
-export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activePage, setActivePage] = useState<Page>("dashboard")
-  const [userRole, setUserRole] = useState<Role>("agent")
-
+export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [activePage, setActivePage] = useState<Page>("dashboard");
+  const [userRole, setUserRole] = useState<Role>("admin");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
-    <DashboardContext.Provider value={{ activePage, setActivePage, userRole, setUserRole }}>
+    <DashboardContext.Provider
+      value={{ activePage, setActivePage, userRole, setUserRole, isSidebarOpen, setIsSidebarOpen }}
+    >
       {children}
     </DashboardContext.Provider>
-  )
-}
+  );
+};
 
 export const useDashboard = () => {
-  const context = useContext(DashboardContext)
+  const context = useContext(DashboardContext);
   if (context === undefined) {
-    throw new Error("useDashboard must be used within a DashboardProvider")
+    throw new Error("useDashboard must be used within a DashboardProvider");
   }
-  return context
-}
-
+  return context;
+};

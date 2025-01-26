@@ -1,3 +1,4 @@
+"use client"
 import type React from "react"
 import { useDashboard } from "../contexts/DashboardContext"
 import StatisticsCard from "./StatisticsCard"
@@ -18,6 +19,8 @@ import AIAutomationDashboard from "./AIAutomation/AIAutomationDashboard"
 import PerformanceMonitoring from "./PerformanceMonitoring/PerformanceMonitoring"
 import TaskAutomationSettings from "./TaskAutomation/TaskAutomationSettings"
 import FAQAndTraining from "./FAQAndTraining"
+import Analytics from "./Analytics/Analytics"
+import CustomerRetention from "./CustomerRetention/CustomerRetention"
 
 const MainContent: React.FC = () => {
   const { activePage, userRole } = useDashboard()
@@ -26,14 +29,14 @@ const MainContent: React.FC = () => {
     switch (userRole) {
       case "admin":
         return (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="col-span-1 md:col-span-2 lg:col-span-3">
               <StatisticsCard />
             </div>
-            <div className="md:col-span-2">
+            <div className="col-span-1 md:col-span-2">
               <ActivityFeed />
             </div>
-            <div className="md:col-span-1">
+            <div className="col-span-1">
               <QuickActions />
             </div>
           </div>
@@ -82,6 +85,8 @@ const MainContent: React.FC = () => {
         <PipelineManagement />
       ) : activePage === "campaigns" && (userRole === "admin" || userRole === "manager") ? (
         <CampaignManagement />
+      ) : activePage === "customer-retention" ? (
+        <CustomerRetention />
       ) : activePage === "users" && userRole === "admin" ? (
         <UserManagement />
       ) : activePage === "settings" ? (
@@ -94,6 +99,8 @@ const MainContent: React.FC = () => {
         <TaskAutomationSettings />
       ) : activePage === "faq" ? (
         <FAQAndTraining />
+      ) : activePage === "analytics" ? (
+        <Analytics />
       ) : (
         <p className="text-gray-300">You don't have permission to access this page.</p>
       )}

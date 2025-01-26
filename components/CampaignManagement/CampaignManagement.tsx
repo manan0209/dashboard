@@ -1,10 +1,12 @@
 "use client"
-
 import type React from "react"
 import { useState } from "react"
 import CampaignsOverview from "./CampaignsOverview"
 import CampaignsTable from "./CampaignsTable"
 import CreateCampaignModal from "./CreateCampaignModal"
+import AutomatedCampaigns from "./AutomatedCampaigns"
+import PersonalizedOutreach from "./PersonalizedOutreach"
+import OmniChannelDashboard from "./OmniChannelDashboard"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
@@ -23,6 +25,11 @@ const CampaignManagement: React.FC = () => {
         </Button>
       </div>
       <CampaignsOverview />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AutomatedCampaigns />
+        <PersonalizedOutreach />
+      </div>
+      <OmniChannelDashboard />
       <div className="bg-gray-800 rounded-lg overflow-hidden">
         <CampaignsTable />
       </div>
