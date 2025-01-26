@@ -10,13 +10,11 @@ import {
   HelpCircle,
   LayoutDashboard,
   Megaphone,
-  Menu,
   PieChart,
   Settings,
   UserCircle,
   Users,
-  X,
-  Zap,
+  Zap
 } from "lucide-react"
 import type React from "react"
 import { useEffect, useState } from "react"
@@ -57,20 +55,6 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        className="md:hidden fixed top-4 left-4 z-50" 
-        onClick={() => {
-          setIsMobileMenuOpen(!isMobileMenuOpen)
-          if (isMobile) {
-            setIsCollapsed(!isCollapsed)
-          }
-        }}
-      >
-        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </Button>
-
       <AnimatePresence mode="wait">
         <motion.aside
           className={`
@@ -109,7 +93,9 @@ const Sidebar: React.FC = () => {
                     setIsMobileMenuOpen(!isMobileMenuOpen)
                   }
                 }}
-                className="text-muted-foreground hover:text-foreground hover:bg-accent flex-shrink-0"
+                className={`text-muted-foreground hover:text-foreground hover:bg-accent flex-shrink-0 ${
+                  isCollapsed ? "w-full justify-center" : ""
+                }`}
               >
                 {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
               </Button>

@@ -15,6 +15,7 @@ const LayoutContent: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showNoAccount, setShowNoAccount] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { isCollapsed } = useDashboard()
 
   const handleLogin = (email: string, password: string, role: string) => {
     console.log("Login attempt with:", email, password, role)
@@ -42,7 +43,7 @@ const LayoutContent: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-background text-foreground md:flex-row">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className={`flex-1 flex flex-col overflow-hidden ${isCollapsed ? "md:ml-16" : "md:ml-64"}`}>
         <TopNav onLogout={handleLogout} onToggleSidebar={toggleMobileMenu} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
           <MainContent />

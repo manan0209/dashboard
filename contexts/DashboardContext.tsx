@@ -27,6 +27,8 @@ interface DashboardContextType {
   setIsSidebarOpen: (isOpen: boolean) => void;
   isMobileMenuOpen: boolean;
   setIsMobileMenuOpen: (isOpen: boolean) => void;
+  isCollapsed: boolean;
+  setIsCollapsed: (isCollapsed: boolean) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
@@ -40,6 +42,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userRole, setUserRole] = useState<Role>("admin");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <DashboardContext.Provider
@@ -51,7 +54,9 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
         isSidebarOpen, 
         setIsSidebarOpen,
         isMobileMenuOpen,
-        setIsMobileMenuOpen
+        setIsMobileMenuOpen,
+        isCollapsed,
+        setIsCollapsed
       }}
     >
       {children}
